@@ -1,0 +1,21 @@
+{
+    "name": "huang-yi/rbac-laravel",
+    "description": "A RBAC package for Laravel.",
+    "keywords": ["rbac", "laravel"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Huang Yi",
+            "email": "coodeer@163.com"
+        }
+    ],
+    "require": {
+        "illuminate/support": "5.3.*",
+        "illuminate/database": "5.3.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "HuangYi\\Rbac\\": "src"
+        }
+    }
+}
