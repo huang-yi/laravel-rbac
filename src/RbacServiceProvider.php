@@ -28,6 +28,9 @@ class RbacServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->publishConfig();
+        $this->publishMigrations();
+        $this->setupConfig();
         $this->setupDatabase();
     }
 
@@ -44,20 +47,59 @@ class RbacServiceProvider extends ServiceProvider
     }
 
     /**
+     * Publish config.
+     */
+    protected function publishConfig()
+    {
+        $path = $this->getConfigPath();
+        $this->publishes([$path => config_path('rbac.php')], 'config');
+    }
+
+    /**
+     * Publish migrations.
+     */
+    protected function publishMigrations()
+    {
+        $path = $this->getMigrationsPath();
+        $this->publishes([$path => base_path('/database/migrations')], 'migrations');
+    }
+
+    /**
+     * Setup config.
+     */
+    protected function setupConfig()
+    {
+        $path = $this->getConfigPath();
+        $this->mergeConfigFrom($path, 'rbac');
+    }
+
+    /**
      * Setup database connection.
      *
      * @return void
      */
     protected function setupDatabase()
     {
-        $connection = $this->app['config']->get('database.connections.rbac');
+        $connection = $this->app['config']->get('rbac.connection');
+        $database = $this->app['config']->get('database.connections.' . $connection);
 
-        if ( ! $connection ) {
-            $connectionName = $this->app['config']->get('database.default');
-            $connection = $this->app['config']->get('database.connections.'.$connectionName);
+        $this->app['config']->set('database.connections.rbac', $database);
+    }
 
-            $this->app['config']->set('database.connections.rbac', $connection);
-        }
+    /**
+     * @return string
+     */
+    protected function getConfigPath()
+    {
+        return realpath(__DIR__ . '/../config/rbac.php');
+    }
+
+    /**
+     * @return string
+     */
+    protected function getMigrationsPath()
+    {
+        return realpath(__DIR__ . '/..//migrations/');
     }
 
 }
