@@ -58,4 +58,56 @@ class Role extends Model
         return $this->belongsToMany(Permission::class, 'role_permission', 'permission_id', 'role_id');
     }
 
+    /**
+     * @param $permissionIDs
+     */
+    public function attachPermissions($permissionIDs)
+    {
+        $this->permissions()->attach($permissionIDs);
+    }
+
+    /**
+     * @param $permissionIDs
+     */
+    public function detachPermissions($permissionIDs)
+    {
+        $this->permissions()->detach($permissionIDs);
+    }
+
+    /**
+     * @param $permissionIDs
+     * @return array
+     */
+    public function syncPermissions($permissionIDs)
+    {
+        return $this->permissions()->sync($permissionIDs);
+    }
+
+    /**
+     * @param $permissionIDs
+     * @return array
+     */
+    public function syncWithoutDetachingRoles($permissionIDs)
+    {
+        return $this->permissions()->syncWithoutDetaching($permissionIDs);
+    }
+
+    /**
+     * @param $userIDs
+     * @return array
+     */
+    public function syncUsers($userIDs)
+    {
+        return $this->users()->sync($userIDs);
+    }
+
+    /**
+     * @param $userIDs
+     * @return array
+     */
+    public function syncWithoutDetachingUsers($userIDs)
+    {
+        return $this->users()->syncWithoutDetaching($userIDs);
+    }
+
 }

@@ -50,4 +50,22 @@ class Permission extends Model
         return $this->belongsToMany(Role::class, 'role_permission', 'role_id', 'permission_id');
     }
 
+    /**
+     * @param $roleIDs
+     * @return array
+     */
+    public function syncRoles($roleIDs)
+    {
+        return $this->roles()->sync($roleIDs);
+    }
+
+    /**
+     * @param $roleIDs
+     * @return array
+     */
+    public function syncWithoutDetachingRoles($roleIDs)
+    {
+        return $this->roles()->syncWithoutDetaching($roleIDs);
+    }
+
 }

@@ -59,4 +59,36 @@ class RbacTrait extends Model
         return ! empty(array_intersect($permissions, $userPermissions));
     }
 
+    /**
+     * @param $roleIDs
+     */
+    public function attachRoles($roleIDs)
+    {
+        $this->roles()->attach($roleIDs);
+    }
+
+    /**
+     * @param $roleIDs
+     */
+    public function detachRoles($roleIDs)
+    {
+        $this->roles()->detach($roleIDs);
+    }
+
+    /**
+     * @param $roleIDs
+     */
+    public function syncRoles($roleIDs)
+    {
+        $this->roles()->sync($roleIDs);
+    }
+
+    /**
+     * @param $roleIDs
+     */
+    public function syncWithoutDetachingRoles($roleIDs)
+    {
+        $this->roles()->syncWithoutDetaching($roleIDs);
+    }
+
 }
