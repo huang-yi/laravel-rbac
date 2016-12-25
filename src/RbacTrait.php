@@ -11,9 +11,8 @@
 namespace HuangYi\Rbac;
 
 use HuangYi\Rbac\Models\Role;
-use Illuminate\Database\Eloquent\Model;
 
-class RbacTrait extends Model
+trait RbacTrait
 {
 
     /**
