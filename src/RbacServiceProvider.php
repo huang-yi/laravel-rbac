@@ -44,8 +44,8 @@ class RbacServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('rbac', function ($app) {
-            $auth = $app->make(Guard::class);
-            return new Rbac($auth);
+            $user = $app->make(Guard::class)->user();
+            return new Rbac($user);
         });
 
         $this->registerBladeDirectives();
