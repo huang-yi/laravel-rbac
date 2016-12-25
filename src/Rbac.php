@@ -10,40 +10,38 @@
 
 namespace HuangYi\Rbac;
 
-use Illuminate\Contracts\Auth\Guard;
-
 class Rbac
 {
     /**
-     * @var \Illuminate\Contracts\Auth\Guard
+     * @var \HuangYi\Rbac\RbacTrait
      */
-    protected $auth;
+    protected $user;
 
     /**
      * Rbac constructor.
-     * @param \Illuminate\Contracts\Auth\Guard $auth
+     * @param \HuangYi\Rbac\RbacTrait $user
      */
-    public function __construct(Guard $auth)
+    public function __construct(RbacTrait $user)
     {
-        $this->auth = $auth;
+        $this->user = $user;
     }
 
     /**
-     * @param $roles
-     * @return bool
+     * @param \HuangYi\Rbac\RbacTrait $user
      */
-    public function hasRole($roles)
+    public function setUser(RbacTrait $user)
     {
-        return $this->auth->user()->hasRole($roles);
+        $this->user = $user;
     }
 
     /**
-     * @param $permissions
-     * @return bool
+     * @param $name
+     * @param $arguments
+     * @return mixed
      */
-    public function hasPermission($permissions)
+    public function __call($name, $arguments)
     {
-        return $this->auth->user()->hasPermission($permissions);
+        return call_user_func_array([$this->user, $name], $arguments);
     }
 
 }
