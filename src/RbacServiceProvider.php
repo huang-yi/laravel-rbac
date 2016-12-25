@@ -10,6 +10,8 @@
 
 namespace HuangYi\Rbac;
 
+use HuangYi\Rbac\Managers\RoleManager;
+use HuangYi\Rbac\Models\Permission;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -43,11 +45,8 @@ class RbacServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('rbac', function ($app) {
-            $user = $app->make(Guard::class)->user();
-            return new Rbac($user);
-        });
-
+        $this->registerRbac();
+        $this->registerAlias();
         $this->registerBladeDirectives();
     }
 
@@ -105,6 +104,30 @@ class RbacServiceProvider extends ServiceProvider
     protected function getMigrationsPath()
     {
         return realpath(__DIR__ . '/..//migrations/');
+    }
+
+    /**
+     * Register rbac service.
+     */
+    protected function registerRbac()
+    {
+        $this->app->singleton(Rbac::class, function ($app) {
+            $user = $app->make(Guard::class)->user();
+            return new Rbac($user);
+        });
+
+        $this->app->singleton(RoleManager::class);
+        $this->app->singleton(Permission::class);
+    }
+
+    /**
+     * Register alias.
+     */
+    protected function registerAlias()
+    {
+        $this->app->alias(Rbac::class, 'rbac');
+        $this->app->alias(RoleManager::class, 'rbac.role');
+        $this->app->alias(Permission::class, 'rbac.permission');
     }
 
     /**
