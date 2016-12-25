@@ -10,6 +10,8 @@
 
 namespace HuangYi\Rbac;
 
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class RbacServiceProvider extends ServiceProvider
@@ -42,8 +44,11 @@ class RbacServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('rbac', function ($app) {
-            // TODO
+            $auth = $app->make(Guard::class);
+            return new Rbac($auth);
         });
+
+        $this->registerBladeDirectives();
     }
 
     /**
@@ -100,6 +105,32 @@ class RbacServiceProvider extends ServiceProvider
     protected function getMigrationsPath()
     {
         return realpath(__DIR__ . '/..//migrations/');
+    }
+
+    /**
+     * Register blade directives.
+     */
+    protected function registerBladeDirectives()
+    {
+        if ( ! class_exists('\Illuminate\Support\Facades\Blade') ) {
+            return;
+        }
+
+        Blade::directive('ifHasRole', function ($roles) {
+            return "<?php if(Auth::check() && Auth::user()->hasRole({$roles})): ?>";
+        });
+
+        Blade::directive('endIfHasRole', function () {
+            return "<?php endif; ?>";
+        });
+
+        Blade::directive('ifHasPermission', function ($permissions) {
+            return "<?php if(Auth::check() && Auth::user()->hasPermission({$permissions})): ?>";
+        });
+
+        Blade::directive('endIfHasPermission', function () {
+            return "<?php endif; ?>";
+        });
     }
 
 }
