@@ -103,7 +103,7 @@ class RbacServiceProvider extends ServiceProvider
      */
     protected function getMigrationsPath()
     {
-        return realpath(__DIR__ . '/..//migrations/');
+        return realpath(__DIR__ . '/../migrations/');
     }
 
     /**
