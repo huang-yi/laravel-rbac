@@ -51,6 +51,16 @@ class RbacServiceProvider extends ServiceProvider
     }
 
     /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['rbac', 'rbac.role', 'rbac.permission'];
+    }
+
+    /**
      * Publish config.
      */
     protected function publishConfig()
