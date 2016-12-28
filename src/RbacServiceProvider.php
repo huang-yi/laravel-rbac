@@ -33,7 +33,7 @@ class RbacServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishConfig();
-        $this->publishMigrations();
+        $this->loadMigrations();
         $this->setupConfig();
     }
 
@@ -69,12 +69,12 @@ class RbacServiceProvider extends ServiceProvider
     }
 
     /**
-     * Publish migrations.
+     * Load migrations.
      */
-    protected function publishMigrations()
+    protected function loadMigrations()
     {
         $path = $this->getMigrationsPath();
-        $this->publishes([$path => base_path('/database/migrations')], 'migrations');
+        $this->loadMigrationsFrom($path);
     }
 
     /**
