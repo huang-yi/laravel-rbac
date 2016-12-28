@@ -13,12 +13,12 @@ Rbac-Laravel是一个基于Laravel框架的RBAC拓展包，[RBAC](https://zh.wik
 使用composer来快速安装拓展包：
 
 ```
-composer require huang-yi/rbac-laravel:1.0.*
+$ composer require huang-yi/rbac-laravel:1.0.*
 ```
 
 或者编辑项目根目录的`composer.json`文件，在`require`属性里面添加一项：
 
-```
+```php
 {
     "require": {
         "huang-yi/rbac-laravel": "1.0.*"
@@ -32,7 +32,7 @@ composer require huang-yi/rbac-laravel:1.0.*
 
 首先往Laravel应用中注册ServiceProvider，打开文件`config/app.php`，在`providers`中添加一项：
 
-```
+```php
 [
     'providers' => [
         HuangYi\Rbac\RbacServiceProvider::class,
@@ -43,18 +43,18 @@ composer require huang-yi/rbac-laravel:1.0.*
 然后发布拓展包的配置文件，使用如下命令：
 
 ```
-php artisan vendor:publish
+$ php artisan vendor:publish
 ```
 
-这时候`config/`目录会出现`rbac.php`文件，配置文件中有两个配置选项：
+这时候`config/`目录下会出现`rbac.php`文件，该配置文件中有两个配置选项：
 
-第一个为`connection`属性，用于配置RBAC模块使用的数据库连接。
+第一个为`connection`属性，用于配置RBAC模块使用的数据库连接名。
 
 第二个为`user`属性，用于配置Laravel应用中使用的用户模型。默认为`App\User`。
 
-上述配置文件中所用到的用户模型必须使用`HuangYi\Rbac\RbacTrait`：
+上述配置文件中所配置的user模型类必须`use HuangYi\Rbac\RbacTrait`：
 
-```
+```php
 namespace App;
 
 use HuangYi\Rbac\RbacTrait;
@@ -69,10 +69,10 @@ class User extends Model
 
 ## 数据迁移
 
-运行以下命令创建拓展包的数据表：
+执行以下命令创建拓展包必须依赖的数据库表：
 
 ```
-php artisan migrate
+$ php artisan migrate
 ```
 
 ## 使用方法
@@ -83,7 +83,7 @@ php artisan migrate
 
 2、创建一个权限：`HuangYi\Rbac\Managers\PermissionManager::create(array $attributes)`
 
-```
+```php
 $permissionManager = new \HuangYi\Rbac\Managers\PermissionManager();
 
 $permission = $permissionManager->create([
@@ -95,7 +95,7 @@ $permission = $permissionManager->create([
 
 3、删除一个权限：`HuangYi\Rbac\Managers\PermissionManager::delete($ID)`
 
-```
+```php
 $permissionManager = new \HuangYi\Rbac\Managers\PermissionManager();
 
 $deleted = $permissionManager->delete(1);
@@ -105,7 +105,7 @@ $deleted = $permissionManager->delete(1);
 
 4、更新一个权限：`HuangYi\Rbac\Managers\PermissionManager::update($ID, array $attributes)`
 
-```
+```php
 $permissionManager = new \HuangYi\Rbac\Managers\PermissionManager();
 
 $updated = $permissionManager->update(1, [
@@ -115,7 +115,7 @@ $updated = $permissionManager->update(1, [
 
 5、查询一个权限：`HuangYi\Rbac\Managers\PermissionManager::find($ID)`
 
-```
+```php
 $permissionManager = new \HuangYi\Rbac\Managers\PermissionManager();
 
 $permission = $permissionManager->find(1);
@@ -127,7 +127,7 @@ $permission = $permissionManager->find(1);
 
 2、创建一个角色：`HuangYi\Rbac\Managers\RoleManager::create(array $attributes)`
 
-```
+```php
 $roleManager = new \HuangYi\Rbac\Managers\RoleManager();
 
 $role = $roleManager->create([
@@ -139,7 +139,7 @@ $role = $roleManager->create([
 
 3、删除一个角色：`HuangYi\Rbac\Managers\RoleManager::delete($ID)`
 
-```
+```php
 $roleManager = new \HuangYi\Rbac\Managers\RoleManager();
 
 $deleted = $roleManager->delete(1);
@@ -149,7 +149,7 @@ $deleted = $roleManager->delete(1);
 
 4、更新一个角色：`HuangYi\Rbac\Managers\RoleManager::update($ID, array $attributes)`
 
-```
+```php
 $roleManager = new \HuangYi\Rbac\Managers\RoleManager();
 
 $updated = $roleManager->update(1, [
@@ -159,7 +159,7 @@ $updated = $roleManager->update(1, [
 
 5、查询一个角色：`HuangYi\Rbac\Managers\RoleManager::find($ID)`
 
-```
+```php
 $roleManager = new \HuangYi\Rbac\Managers\RoleManager();
 
 $role = $roleManager->find(1);
@@ -167,7 +167,7 @@ $role = $roleManager->find(1);
 
 6、为角色绑定权限：`HuangYi\Rbac\Managers\RoleManager::attachPermissions($permissionIDs)`
 
-```
+```php
 $roleManager = new \HuangYi\Rbac\Managers\RoleManager();
 
 // 绑定一个权限
@@ -179,7 +179,7 @@ $roleManager->attachPermissions([1, 2, 3]);
 
 7、为角色解绑权限：`HuangYi\Rbac\Managers\RoleManager::detachPermissions($permissionIDs)`
 
-```
+```php
 $roleManager = new \HuangYi\Rbac\Managers\RoleManager();
 
 // 解绑一个权限
@@ -193,7 +193,7 @@ $roleManager->detachPermissions([1, 2, 3]);
 
 1、为用户绑定角色：`HuangYi\Rbac\RbacTrait::attachRoles($roleIDs)`
 
-```
+```php
 $user = \App\User::find(1);
 
 // 绑定一个角色
@@ -205,7 +205,7 @@ $user->attachRoles([1, 2, 3]);
 
 2、为用户解绑角色：`HuangYi\Rbac\RbacTrait::detachRoles($roleIDs)`
 
-```
+```php
 $user = \App\User::find(1);
 
 // 解绑一个角色
@@ -217,7 +217,7 @@ $user->detachRoles([1, 2, 3]);
 
 3、判断用户是否为某些角色，若需要判断多个角色请使用`|`间隔：`HuangYi\Rbac\RbacTrait::hasRole($roles)`
 
-```
+```php
 $user = \App\User::find(1);
 
 // 判断一个角色
@@ -229,7 +229,7 @@ $user->hasRole('seller|operator');
 
 4、判断用户是否拥有某些权限，若需要判断多个权限请使用`|`间隔：`HuangYi\Rbac\RbacTrait::hasPermission($permissions)`
 
-```
+```php
 $user = \App\User::find(1);
 
 // 判断一个权限
@@ -243,7 +243,7 @@ $user->hasPermission('product.create|product.update');
 
 Rbac-Laravel为开发人员提供了便利的Middleware，如果需要使用请将`HuangYi\Rbac\RbacMiddleware`注入到`app/Http/Kernel.php`中的路由中间件里：
 
-```
+```php
 protected $routeMiddleware = [
     'rbac' => \HuangYi\Rbac\RbacMiddleware::class,
 ];
@@ -251,7 +251,7 @@ protected $routeMiddleware = [
 
 配置好后即可在路由中使用：
 
-```
+```php
 Route::get('/do/something', [
     'uses' => 'SomeController@action',
     'middleware' => 'rbac:role,roleSlug1|roleSlug2',
@@ -265,7 +265,7 @@ Route::get('/do/something', [
 
 ### 在视图中使用
 
-```
+```php
 @ifHasRole('roleSlug1|roleSlug2')
 <p>You can see this.</p>
 @endIfHasRole
