@@ -35,7 +35,6 @@ class RbacServiceProvider extends ServiceProvider
         $this->publishConfig();
         $this->publishMigrations();
         $this->setupConfig();
-        $this->setupDatabase();
     }
 
     /**
@@ -85,19 +84,6 @@ class RbacServiceProvider extends ServiceProvider
     {
         $path = $this->getConfigPath();
         $this->mergeConfigFrom($path, 'rbac');
-    }
-
-    /**
-     * Setup database connection.
-     *
-     * @return void
-     */
-    protected function setupDatabase()
-    {
-        $connection = $this->app['config']->get('rbac.connection');
-        $database = $this->app['config']->get('database.connections.' . $connection);
-
-        $this->app['config']->set('database.connections.rbac', $database);
     }
 
     /**
