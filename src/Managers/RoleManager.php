@@ -86,7 +86,7 @@ class RoleManager
     public function detachPermissions($ID, $permissionIDs)
     {
         $role = $this->find($ID);
-        $role->attachPermissions($permissionIDs);
+        $role->detachPermissions($permissionIDs);
     }
 
 }
