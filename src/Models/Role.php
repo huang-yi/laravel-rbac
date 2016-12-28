@@ -10,17 +10,8 @@
 
 namespace HuangYi\Rbac\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
 class Role extends Model
 {
-    /**
-     * The connection name for the model.
-     *
-     * @var string
-     */
-    protected $connection = 'rbac';
-
     /**
      * The table associated with the model.
      *
@@ -47,7 +38,7 @@ class Role extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(config('rbac.user'), 'user_role', 'user_id', 'role_id');
+        return $this->belongsToMany(config('rbac.user'), 'user_role', 'role_id', 'user_id');
     }
 
     /**
@@ -55,7 +46,7 @@ class Role extends Model
      */
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class, 'role_permission', 'permission_id', 'role_id');
+        return $this->belongsToMany(Permission::class, 'role_permission', 'role_id', 'permission_id');
     }
 
     /**
@@ -87,7 +78,7 @@ class Role extends Model
      * @param $permissionIDs
      * @return array
      */
-    public function syncWithoutDetachingRoles($permissionIDs)
+    public function syncWithoutDetachingPermissions($permissionIDs)
     {
         return $this->permissions()->syncWithoutDetaching($permissionIDs);
     }
