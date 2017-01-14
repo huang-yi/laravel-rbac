@@ -31,8 +31,8 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
-            "php -r \"file_exists('phpunit.xml.dist') || copy('phpunit.xml.dist', 'phpunit.xml');\""
+        "post-create-project-cmd": [
+            "php -r \"file_exists('phpunit.xml') || copy('phpunit.xml.dist', 'phpunit.xml');\""
         ]
     }
 }
