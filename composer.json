@@ -31,7 +31,7 @@
         }
     },
     "scripts": {
-        "post-root-package-install": [
+        "post-install-cmd": [
             "php -r \"file_exists('phpunit.xml.dist') || copy('phpunit.xml.dist', 'phpunit.xml');\""
         ]
     }
