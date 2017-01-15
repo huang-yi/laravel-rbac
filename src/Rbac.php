@@ -21,7 +21,7 @@ class Rbac
      * Rbac constructor.
      * @param \HuangYi\Rbac\RbacTrait $user
      */
-    public function __construct(RbacTrait $user)
+    public function __construct(RbacTrait $user = null)
     {
         $this->user = $user;
     }
