@@ -29,10 +29,5 @@
         "psr-4": {
             "HuangYi\\Rbac\\Tests\\": "tests"
         }
-    },
-    "scripts": {
-        "post-create-project-cmd": [
-            "php -r \"file_exists('phpunit.xml') || copy('phpunit.xml.dist', 'phpunit.xml');\""
-        ]
     }
 }
