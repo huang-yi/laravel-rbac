@@ -10,8 +10,8 @@
         }
     ],
     "require": {
-        "illuminate/support": "5.3.*",
-        "illuminate/database": "5.3.*"
+        "illuminate/support": "~5.0",
+        "illuminate/database": "~5.0"
     },
     "require-dev": {
         "orchestra/testbench": "3.3.*",
