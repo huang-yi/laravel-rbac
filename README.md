@@ -109,8 +109,46 @@ $user->hasAnyPermissions(['create post', 'edit post']);
 
 $user->can('edit post');
 
-// This is similar to hasAnyPermissions
+// this is similar to hasAnyPermissions
 $user->can('edit post|edit post');
+```
+
+## Super Admin
+
+You may register a callback for determining if the user is a super admin in `AuthServiceProvider::boot()` method like this:
+
+```php
+namespace App\Providers;
+
+use HuangYi\Rbac\Rbac;
+use Illuminate\Support\ServiceProvider;
+
+class AuthServiceProvider extends ServiceProvider
+{
+    public function boot()
+    {
+        Rbac::checkSuperAdminUsing(function ($user) {
+            return in_array($user->email, ['admin@example.com']);
+        });
+    }
+}
+
+
+```
+
+## Middleware
+
+```php
+
+// role middleware
+Route::get('admin/staffs', [StaffController::class, 'index'])->middleware('role:personnel manager|vice president');
+
+// permission middleware
+Route::post('post/{post}', [PostController::class, 'update'])->middleware('permission:create post|edit post');
+
+// this is similar to 'permission' middleware
+Route::post('post/{post}', [PostController::class, 'update'])->middleware('can:create post|edit post');
+
 ```
 
 ## Tests

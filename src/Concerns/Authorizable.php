@@ -3,6 +3,7 @@
 namespace HuangYi\Rbac\Concerns;
 
 use HuangYi\Rbac\Permission;
+use HuangYi\Rbac\Rbac;
 use HuangYi\Rbac\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -133,6 +134,10 @@ trait Authorizable
      */
     public function hasRole($role): bool
     {
+        if (Rbac::isSuperAdmin($this)) {
+            return true;
+        }
+
         if (is_null($this->optimizedRoles)) {
             $this->optimizeRoles();
         }
@@ -150,6 +155,10 @@ trait Authorizable
      */
     public function hasRoles(iterable $roles): bool
     {
+        if (Rbac::isSuperAdmin($this)) {
+            return true;
+        }
+
         if (is_null($this->optimizedRoles)) {
             $this->optimizeRoles();
         }
@@ -173,6 +182,10 @@ trait Authorizable
      */
     public function hasAnyRoles(iterable $roles): bool
     {
+        if (Rbac::isSuperAdmin($this)) {
+            return true;
+        }
+
         if (is_null($this->optimizedRoles)) {
             $this->optimizeRoles();
         }
@@ -196,6 +209,10 @@ trait Authorizable
      */
     public function hasPermission($permission): bool
     {
+        if (Rbac::isSuperAdmin($this)) {
+            return true;
+        }
+
         if (is_null($this->optimizedPermissions)) {
             $this->optimizePermissions();
         }
@@ -213,6 +230,10 @@ trait Authorizable
      */
     public function hasPermissions(iterable $permissions): bool
     {
+        if (Rbac::isSuperAdmin($this)) {
+            return true;
+        }
+
         if (is_null($this->optimizedPermissions)) {
             $this->optimizePermissions();
         }
@@ -236,6 +257,10 @@ trait Authorizable
      */
     public function hasAnyPermissions(iterable $permissions): bool
     {
+        if (Rbac::isSuperAdmin($this)) {
+            return true;
+        }
+
         if (is_null($this->optimizedPermissions)) {
             $this->optimizePermissions();
         }

@@ -3,6 +3,8 @@
 namespace HuangYi\Rbac;
 
 use HuangYi\Rbac\Contracts\Authorizable;
+use HuangYi\Rbac\Middleware\Permission;
+use HuangYi\Rbac\Middleware\Role;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -37,6 +39,9 @@ class RbacServiceProvider extends ServiceProvider
      */
     protected function registerGate()
     {
+        $this->app['router']->aliasMiddleware('role', Role::class);
+        $this->app['router']->aliasMiddleware('permission', Permission::class);
+
         $this->app[Gate::class]->before(function ($user, $permission) {
             if ($user instanceof Authorizable) {
                 if ($user->hasAnyPermissions(explode('|', $permission))) {
