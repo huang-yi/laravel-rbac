@@ -1,0 +1,15 @@
+dist: trusty
+sudo: false
+
+language: php
+
+php:
+  - '7.2'
+  - '7.3'
+  - '7.4'
+
+install:
+  - travis_retry composer install --no-suggest --prefer-dist
+
+script:
+  - composer test

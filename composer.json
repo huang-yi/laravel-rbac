@@ -9,6 +9,14 @@
             "email": "coodeer@163.com"
         }
     ],
+    "require": {
+        "illuminate/database": "^6.0|^7.0",
+        "illuminate/support": "^6.0|^7.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "orchestra/testbench": "^5.3"
+    },
     "autoload": {
         "psr-4": {
             "HuangYi\\Rbac\\": "src"
@@ -23,5 +31,9 @@
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "scripts": {
+        "test": "phpunit",
+        "fix": "php-cs-fixer fix"
+    }
 }
