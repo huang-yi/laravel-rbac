@@ -19,6 +19,7 @@ class TestCase extends BaseTestBench
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         $this->app['config']->set('rbac.user', User::class);
+        $this->app['view']->addNamespace('rbac', __DIR__.'/views');
     }
 
     protected function getPackageProviders($app)

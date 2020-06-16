@@ -151,6 +151,28 @@ Route::post('post/{post}', [PostController::class, 'update'])->middleware('can:c
 
 ```
 
+## Blade Directives
+
+Role directives:
+
+```php
+@role('author')
+    <!-- The current user is an author -->
+@elserole('personnel manager')
+    <!-- The current user is a personnel manager -->
+@endrole
+```
+
+Permission directives (or can directives):
+
+```php
+@permission('create post')
+    <!-- The current user has permission to create post -->
+@elsepermission('edit post')
+    <!-- The current user has permission to edit post -->
+@endpermission
+```
+
 ## Tests
 
 ```shell

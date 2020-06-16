@@ -3,6 +3,8 @@
 namespace HuangYi\Rbac;
 
 use HuangYi\Rbac\Contracts\Authorizable;
+use HuangYi\Rbac\Directives\PermissionRegistrar;
+use HuangYi\Rbac\Directives\RoleRegistrar;
 use HuangYi\Rbac\Middleware\Permission;
 use HuangYi\Rbac\Middleware\Role;
 use Illuminate\Contracts\Auth\Access\Gate;
@@ -29,6 +31,8 @@ class RbacServiceProvider extends ServiceProvider
     {
         $this->registerGate();
 
+        $this->registerDirectives();
+
         $this->publishResources();
     }
 
@@ -39,16 +43,34 @@ class RbacServiceProvider extends ServiceProvider
      */
     protected function registerGate()
     {
-        $this->app['router']->aliasMiddleware('role', Role::class);
-        $this->app['router']->aliasMiddleware('permission', Permission::class);
+        if ($this->app->bound('router')) {
+            $this->app['router']->aliasMiddleware('role', Role::class);
+            $this->app['router']->aliasMiddleware('permission', Permission::class);
+        }
 
-        $this->app[Gate::class]->before(function ($user, $permission) {
-            if ($user instanceof Authorizable) {
-                if ($user->hasAnyPermissions(explode('|', $permission))) {
-                    return true;
+        if ($this->app->bound(Gate::class)) {
+            $this->app[Gate::class]->before(function ($user, $permission) {
+                if ($user instanceof Authorizable) {
+                    if ($user->hasAnyPermissions(explode('|', $permission))) {
+                        return true;
+                    }
                 }
-            }
-        });
+            });
+        }
+    }
+
+    /**
+     * Register view directives.
+     *
+     * @return void
+     */
+    protected function registerDirectives()
+    {
+        if ($this->app->bound('blade.compiler')) {
+            (new PermissionRegistrar($this->app['blade.compiler']))->register();
+
+            (new RoleRegistrar($this->app['blade.compiler']))->register();
+        }
     }
 
     /**
