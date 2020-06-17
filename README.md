@@ -155,23 +155,15 @@ Route::post('post/{post}', [PostController::class, 'update'])->middleware('can:c
 
 Role directives:
 
-```php
-@role('author')
-    <!-- The current user is an author -->
-@elserole('personnel manager')
-    <!-- The current user is a personnel manager -->
-@endrole
-```
+- `@role`, `@elserole`, `@endrole` → `hasRole`
+- `@roles`, `@elseroles`, `@endroles` → `hasRoles`
+- `@anyroles`, `@elseanyroles`, `@endanyroles` → `hasAnyRoles`
 
-Permission directives (or can directives):
+Permission directives:
 
-```php
-@permission('create post')
-    <!-- The current user has permission to create post -->
-@elsepermission('edit post')
-    <!-- The current user has permission to edit post -->
-@endpermission
-```
+- `@permission`, `@elsepermission`, `@endpermission` → `hasPermission`
+- `@permissions`, `@elsepermissions`, `@endpermissions` → `hasPermissions`
+- `@anypermissions`, `@elseanypermissions`, `@endanypermissions` → `hasAnyPermissions`
 
 ## Tests
 
