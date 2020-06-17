@@ -191,4 +191,4 @@ composer test
 
 ## License
 
-这个拓展包遵循[MIT开源协议](LICENSE)。
+该拓展包遵循[MIT开源协议](LICENSE)。
