@@ -1,3 +1,5 @@
+English | [中文](README-cn.md)
+
 # Laravel RBAC
 
 This package helps you to manage permissions and roles.
@@ -22,9 +24,17 @@ Finally, you should run your database migrations:
 php artisan migrate
 ```
 
+## Configuration
+
+- **user**: The user model class you are using.
+- **database**:
+  - **connection**: The database connection for RBAC tables.
+  - **prefix**: The common prefix for RBAC tables.
+- **cache**: The cache switch.
+
 ## Usage
 
-Your User model should implement the `HuangYi\Rbac\Contracts\Authorizable` interface and use the `HuangYi\Rbac\Concerns\Authorizable` trait.
+Your User model must be configured to `rbac.user` option. It should implement the `HuangYi\Rbac\Contracts\Authorizable` interface and use the `HuangYi\Rbac\Concerns\Authorizable` trait.
 
 ```php
 namespace App;
@@ -43,8 +53,6 @@ Store a permission to database:
 ```php
 use HuangYi\Rbac\Permission;
 
-Permission::create(['name' => 'create post']);
-
 Permission::make('edit post');
 ```
 
@@ -52,8 +60,6 @@ Store a role to database:
 
 ```php
 use HuangYi\Rbac\Role;
-
-Role::create(['name' => 'author']);
 
 Permission::make('personnel manager');
 ```
@@ -107,15 +113,13 @@ $user->hasPermissions(['create post', 'edit post']);
 
 $user->hasAnyPermissions(['create post', 'edit post']);
 
-$user->can('edit post');
-
 // this is similar to hasAnyPermissions
 $user->can('edit post|edit post');
 ```
 
 ## Super Admin
 
-You may register a callback for determining if the user is a super admin in `AuthServiceProvider::boot()` method like this:
+You may register a callback for determining if the user is a super admin by using `Rbac::checkSuperAdminUsing()` method:
 
 ```php
 namespace App\Providers;
@@ -132,14 +136,11 @@ class AuthServiceProvider extends ServiceProvider
         });
     }
 }
-
-
 ```
 
 ## Middleware
 
 ```php
-
 // role middleware
 Route::get('admin/staffs', [StaffController::class, 'index'])->middleware('role:personnel manager|vice president');
 
@@ -148,7 +149,6 @@ Route::post('post/{post}', [PostController::class, 'update'])->middleware('permi
 
 // this is similar to 'permission' middleware
 Route::post('post/{post}', [PostController::class, 'update'])->middleware('can:create post|edit post');
-
 ```
 
 ## Blade Directives
