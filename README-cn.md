@@ -24,6 +24,14 @@ php artisan vendor:publish --provider="HuangYi\Rbac\RbacServiceProvider"
 php artisan migrate
 ```
 
+## 配置
+
+- **user**: 用户Model类名
+- **database**:
+  - **connection**: RBAC数据表使用的数据库连接
+  - **prefix**: RBAC数据表的公共前缀
+- **cache**: 缓存开关
+
 ## 使用
 
 你的用户模型必须配置到`rbac.user`配置项中去，并且你的用户模型必须implement `HuangYi\Rbac\Contracts\Authorizable` interface，并use `HuangYi\Rbac\Concerns\Authorizable` trait。
