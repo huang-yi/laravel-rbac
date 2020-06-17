@@ -27,6 +27,13 @@
             "HuangYi\\Rbac\\Tests\\": "tests"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "HuangYi\\Rbac\\RbacServiceProvider"
+            ]
+        }
+    },
     "config": {
         "sort-packages": true
     },
